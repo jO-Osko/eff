@@ -20,6 +20,9 @@ then
 elif [ -x "$BASEDIR/../../eff.byte" ]
 then
   EFF="$BASEDIR/../../eff.byte"
+elif [ -x "$BASEDIR/../../eff.exe" ]
+then
+  EFF="$BASEDIR/../../eff.exe"
 else
   echo "Cannot find the eff executable. Compile eff first."
   exit 1
@@ -33,7 +36,7 @@ fi
 
 for FILE in $BASEDIR/*.eff
   do
-  "$EFF" --explicit-subtyping --no-pervasives "$FILE" >"$FILE.out" 2>&1
+  "$EFF" --explicit-subtyping --no-stdlib "$FILE" >"$FILE.out" 2>&1
   if [ -f $FILE.ref ]
       then
       RESULT=`"$DIFF" "$FILE.out" "$FILE.ref"`

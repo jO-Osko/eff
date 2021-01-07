@@ -278,28 +278,36 @@ let rec source_to_target ty st =
   match ty with
   | Type.Apply (ty_name, args) when TypeContext.transparent ~loc ty_name st -> (
       match TypeContext.lookup_tydef ~loc ty_name st with
-      | [], Tctx.Inline ty -> source_to_target ty
-      | _, Tctx.Sum _ | _, Tctx.Record _ ->
+      | { params = []; type_def = TypeContext.Inline ty } ->
+          source_to_target ty st
+      | { type_def = TypeContext.Sum _; _ }
+      | { type_def = TypeContext.Record _; _ }
+      | { type_def = TypeContext.Inline _; _ } ->
           assert false (* None of these are transparent *))
-  | Type.Apply (ty_name, args) -> Apply (ty_name, List.map source_to_target args)
+  | Type.Apply (ty_name, args) ->
+      Apply (ty_name, List.map (fun x -> source_to_target x st) args)
   | Type.TyParam p -> TyParam p
   | Type.Basic b -> PrimTy b
-  | Type.Tuple l -> Tuple (List.map source_to_target l)
+  | Type.Tuple l -> Tuple (List.map (fun x -> source_to_target x st) l)
   | Type.Arrow (ty, dirty) ->
-      Arrow (source_to_target ty, source_to_target_dirty dirty)
+      Arrow (source_to_target ty st, source_to_target_dirty dirty st)
   | Type.Handler { value = dirty1; finally = dirty2 } ->
-      Handler (source_to_target_dirty dirty1, source_to_target_dirty dirty2)
+      Handler
+        (source_to_target_dirty dirty1 st, source_to_target_dirty dirty2 st)
 
-and source_to_target_dirty ty = (source_to_target ty, empty_dirt)
+and source_to_target_dirty ty st = (source_to_target ty st, empty_dirt)
 
-let constructor_signature lbl =
-  match Tctx.infer_variant lbl with
-  | None -> assert false
+let constructor_signature lbl st =
+  match TypeContext.infer_variant lbl st with
+  | None ->
+      let vt = Printexc.get_backtrace () in
+      print_endline vt;
+      assert false
   | Some (ty_out, ty_in) ->
       let ty_in =
         match ty_in with Some ty_in -> ty_in | None -> Type.Tuple []
       in
-      (source_to_target ty_in, source_to_target ty_out)
+      (source_to_target ty_in st, source_to_target ty_out st)
 
 let rec free_ty_vars_ty = function
   | TyParam x -> TyParamSet.singleton x

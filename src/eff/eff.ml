@@ -17,9 +17,9 @@ let options =
       ( "--no-stdlib",
         Arg.Clear Config.use_stdlib,
         " Do not load the standard library" );
-      ( "--explicit-subtyping"
-      , Arg.Set Config.explicit_subtyping
-      , " Enable the experimental explicit subtyping inference engine" );
+      ( "--explicit-subtyping",
+        Arg.Set Config.explicit_subtyping,
+        " Enable the experimental explicit subtyping inference engine" );
       ( "--wrapper",
         Arg.String (fun str -> Config.wrapper := Some [ str ]),
         "<program> Specify a command-line wrapper to be used (such as rlwrap \
@@ -119,6 +119,7 @@ let toplevel execute_source state =
 (* Main program *)
 let main =
   (* Parse the arguments. *)
+  Printexc.record_backtrace true;
   Arg.parse options anonymous usage;
   (* Attemp to wrap yourself with a line-editing wrapper. *)
   (if !Config.interactive_shell then

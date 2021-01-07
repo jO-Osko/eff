@@ -58,7 +58,7 @@ let compose_subst sbst1 sbst2 =
 let free_params ty =
   let rec free_ty = function
     | Apply (_, tys) -> concat_map free_ty tys
-    | TyParam p -> [p]
+    | TyParam p -> [ p ]
     | Basic _ -> []
     | Tuple tys -> concat_map free_ty tys
     | Arrow (ty1, ty2) -> free_ty ty1 @ free_ty ty2

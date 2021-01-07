@@ -15,12 +15,13 @@ module Backend : BackendSignature.T = struct
   let process_computation state c drty =
     let v = Eval.run state c in
     Format.fprintf !Config.output_formatter "@[- : %t = %t@]@."
-      (Types.print_target_dirty drty) (Value.print_value v) ;
+      (Types.print_target_dirty drty)
+      (Value.print_value v);
     state
 
   let process_type_of state c drty =
     Format.fprintf !Config.output_formatter "@[- : %t@]@."
-      (Types.print_target_dirty drty) ;
+      (Types.print_target_dirty drty);
     state
 
   let process_def_effect state (_eff, (_ty1, _ty2)) = state

@@ -83,6 +83,12 @@ let apply_to_params t ps = T.Apply (t, List.map (fun p -> T.TyParam p) ps)
     with refreshed type parameters and additional information needed for type
     inference. *)
 let infer_variant lbl st =
+  (*Printf.printf "Infering variant \n";
+    Assoc.iter
+      (fun (k, v) -> Format.printf "%t, " (CoreTypes.Variable.print k))
+      st;
+    Printf.printf ";\n";
+  *)
   match find_variant lbl st with
   | None -> None
   | Some (ty_name, ps, _, u) ->

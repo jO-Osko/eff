@@ -9,6 +9,7 @@ type state = {
   effects : (Types.target_ty * Types.target_ty) Typed.EffectMap.t;
   substitutions : Substitution.t;
   constraints : Typed.omega_ct list;
+  type_context_state : TypeContext.state;
 }
 
 let merge_substitutions subs state =
@@ -53,6 +54,7 @@ let empty =
     effects = Typed.EffectMap.empty;
     constraints = [];
     substitutions = Substitution.empty;
+    type_context_state = TypeContext.initial_state;
   }
 
 let initial_state = empty
@@ -68,8 +70,8 @@ let print_env env =
     env
 
 let add_effect eff (ty1, ty2) st =
-  let ty1 = Types.source_to_target ty1 in
-  let ty2 = Types.source_to_target ty2 in
+  let ty1 = Types.source_to_target ty1 st.type_context_state in
+  let ty2 = Types.source_to_target ty2 st.type_context_state in
   { st with effects = EffectMap.add eff (ty1, ty2) st.effects }
 
 (* INFERENCE *)
@@ -113,7 +115,10 @@ and type_plain_typed_pattern st pat ty =
       let st' = add_def st x ty in
       (Typed.PVar x, st')
   | Untyped.PNonbinding -> (Typed.PNonbinding, st)
-  | Untyped.PAs (p, v) -> failwith __LOC__
+  | Untyped.PAs (p, v) ->
+      let st' = add_def st v ty in
+      let p', st' = type_plain_typed_pattern st' p.it ty in
+      (Typed.PAs (p', v), st')
   | Untyped.PTuple l ->
       let tl', pats, st'' =
         List.fold_right
@@ -131,7 +136,9 @@ and type_plain_typed_pattern st pat ty =
       (Typed.PTuple pats, st''')
   | Untyped.PRecord r -> failwith __LOC__
   | Untyped.PVariant (lbl, p) -> (
-      let ty_in, ty_out = Types.constructor_signature lbl in
+      let ty_in, ty_out =
+        Types.constructor_signature lbl st.type_context_state
+      in
       let _omega, q = Typed.fresh_ty_coer (ty_out, ty) in
       let st' = add_constraint q st in
       match p with
@@ -424,7 +431,9 @@ and type_plain_expression (st : state) :
         } )
   | Untyped.Record lst -> failwith __LOC__
   | Untyped.Variant (lbl, e) -> (
-      let ty_in, ty_out = Types.constructor_signature lbl in
+      let ty_in, ty_out =
+        Types.constructor_signature lbl st.type_context_state
+      in
       match e with
       | None ->
           ( st,

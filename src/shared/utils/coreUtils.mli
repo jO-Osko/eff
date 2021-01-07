@@ -7,8 +7,7 @@ val fold : ('a -> 'b -> 'a) -> 'a -> 'b list -> 'a
 val fold_map :
   ('state -> 'a -> 'state * 'b) -> 'state -> 'a list -> 'state * 'b list
 
-val concat_map :
-  ('a -> 'b list) -> 'a list -> 'b list
+val concat_map : ('a -> 'b list) -> 'a list -> 'b list
 
 val left_to_right_map : ('a -> 'b) -> 'a list -> 'b list
 (** Custom definition of map to ensure the order of sideffects. *)

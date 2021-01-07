@@ -10,6 +10,7 @@ type state = {
   ty_param_skeletons : (CoreTypes.TyParam.t, Types.skeleton) Assoc.t;
   ty_coer_types : (CoreTypes.TyCoercionParam.t, Types.ct_ty) Assoc.t;
   dirt_coer_types : (CoreTypes.DirtCoercionParam.t, Types.ct_dirt) Assoc.t;
+  type_context_state : TypeContext.state;
 }
 
 let extend_ty_params st ty_var = { st with ty_params = ty_var :: st.ty_params }
@@ -43,6 +44,7 @@ let initial_state =
     ty_param_skeletons = Assoc.empty;
     ty_coer_types = Assoc.empty;
     dirt_coer_types = Assoc.empty;
+    type_context_state = TypeContext.initial_state;
   }
 
 let rec check_well_formed_skeleton st = function
@@ -249,13 +251,18 @@ and type_of_dirt_coercion st dirt_coer =
 let rec extend_pattern_types st p ty =
   match p with
   | PVar x -> extend_var_types st x ty
+  | PAs (p, v) ->
+      let st' = extend_pattern_types st p ty in
+      extend_var_types st' v ty
   | PNonbinding -> st
   | PConst c ->
       let ty_c = Types.type_const c in
       assert (Types.types_are_equal ty_c ty);
       st
   | PVariant (lbl, p) ->
-      let ty_in, ty_out = Types.constructor_signature lbl in
+      let ty_in, ty_out =
+        Types.constructor_signature lbl st.type_context_state
+      in
       assert (Types.types_are_equal ty ty_out);
       extend_pattern_types st p ty_in
   | PTuple ps -> (
@@ -274,7 +281,9 @@ let rec type_of_expression st e =
       Types.Arrow (ty1, c_ty)
   | Tuple es -> Types.Tuple (List.map (fun e -> type_of_expression st e) es)
   | Variant (lbl, e) ->
-      let ty_in, ty_out = Types.constructor_signature lbl in
+      let ty_in, ty_out =
+        Types.constructor_signature lbl st.type_context_state
+      in
       let u' = type_of_expression st e in
       assert (Types.types_are_equal u' ty_in);
       ty_out
