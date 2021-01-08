@@ -1,6 +1,5 @@
 open CoreUtils
 module TypeSystem = SimpleInfer
-module EffectSystem = ExplicitInfer
 
 module type Shell = sig
   type state
@@ -22,8 +21,6 @@ module Make (Backend : BackendSignature.T) = struct
   type state = {
     desugarer_state : Desugarer.state;
     type_system_state : TypeSystem.state;
-    effect_system_state : EffectSystem.state;
-    type_checker_state : TypeChecker.state;
     backend_state : Backend.state;
     type_context_state : TypeContext.state;
   }
@@ -33,8 +30,6 @@ module Make (Backend : BackendSignature.T) = struct
     {
       desugarer_state = Desugarer.initial_state;
       type_system_state = TypeSystem.initial_state;
-      effect_system_state = EffectSystem.initial_state;
-      type_checker_state = TypeChecker.initial_state;
       backend_state = Backend.initial_state;
       type_context_state = TypeContext.initial_state;
     }
@@ -50,40 +45,24 @@ module Make (Backend : BackendSignature.T) = struct
           TypeSystem.infer_top_comp state.type_system_state
             state.type_context_state c
         in
-        let c', effect_system_state' =
-          ExplicitInfer.type_toplevel ~loc:c.at state.effect_system_state c
-        in
-        let drty =
-          TypeChecker.type_of_computation state.type_checker_state c'
-        in
         let backend_state' =
-          Backend.process_computation state.backend_state c drty
+          Backend.process_computation state.backend_state c ty
         in
         {
           state with
           type_system_state = type_system_state';
-          effect_system_state = effect_system_state';
           backend_state = backend_state';
         }
     | Commands.TypeOf t ->
         let _, c = Desugarer.desugar_computation state.desugarer_state t in
-        let type_system_state', _ =
+        let type_system_state', ty =
           TypeSystem.infer_top_comp state.type_system_state
             state.type_context_state c
         in
-        let c', effect_system_state' =
-          ExplicitInfer.type_toplevel ~loc:c.at state.effect_system_state c
-        in
-        let drty =
-          TypeChecker.type_of_computation state.type_checker_state c'
-        in
-        let backend_state' =
-          Backend.process_type_of state.backend_state c drty
-        in
+        let backend_state' = Backend.process_type_of state.backend_state c ty in
         {
           state with
           type_system_state = type_system_state';
-          effect_system_state = effect_system_state';
           backend_state = backend_state';
         }
     | Commands.Help ->
@@ -103,17 +82,13 @@ module Make (Backend : BackendSignature.T) = struct
         let type_system_state' =
           TypeSystem.add_effect state.type_system_state eff (ty1, ty2)
         in
-        let effect_system_state' =
-          ExplicitInfer.add_effect eff (ty1, ty2) state.effect_system_state
-        in
         let backend_state' =
           Backend.process_def_effect state.backend_state (eff, (ty1, ty2))
         in
         {
           state with
-          desugarer_state = desugarer_state';
           type_system_state = type_system_state';
-          effect_system_state = effect_system_state';
+          desugarer_state = desugarer_state';
           backend_state = backend_state';
         }
     | Commands.Quit ->
@@ -162,13 +137,6 @@ module Make (Backend : BackendSignature.T) = struct
         let type_system_state' =
           TypeSystem.extend state.type_system_state x (Type.free_params ty, ty)
         in
-        let ty' = Types.source_to_target ty state.type_context_state in
-        let effect_system_state' =
-          EffectSystem.add_external state.effect_system_state x ty'
-        in
-        let type_checker_state' =
-          TypeChecker.add_external state.type_checker_state x ty'
-        in
         let backend_state' =
           Backend.process_external state.backend_state (x, ty, f)
         in
@@ -176,8 +144,6 @@ module Make (Backend : BackendSignature.T) = struct
           state with
           desugarer_state = desugarer_state';
           type_system_state = type_system_state';
-          effect_system_state = effect_system_state';
-          type_checker_state = type_checker_state';
           backend_state = backend_state';
         }
     | Commands.Tydef tydefs ->
@@ -188,18 +154,6 @@ module Make (Backend : BackendSignature.T) = struct
           TypeContext.extend_type_definitions ~loc tydefs'
             state.type_context_state
         in
-        let type_checker_state =
-          {
-            state.type_checker_state with
-            type_context_state = type_context_state';
-          }
-        in
-        let effect_system_state =
-          {
-            state.effect_system_state with
-            type_context_state = type_context_state';
-          }
-        in
         let backend_state' =
           Backend.process_tydef state.backend_state tydefs'
         in
@@ -207,9 +161,7 @@ module Make (Backend : BackendSignature.T) = struct
           state with
           desugarer_state = desugarer_state';
           type_context_state = type_context_state';
-          type_checker_state;
           backend_state = backend_state';
-          effect_system_state;
         }
 
   and exec_cmds state cmds = fold exec_cmd state cmds

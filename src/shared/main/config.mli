@@ -6,14 +6,9 @@ val version : string
 val use_stdlib : bool ref
 (** Should we load the standard library? *)
 
-type backend = Runtime | Ocaml of string | Multicore of string
+type backend = Runtime | Multicore of string
 
 val backend : backend ref
-
-val disable_optimization : bool ref
-(** Should compiled computations be optimized? *)
-
-val optimization_fuel : int ref
 
 val ascii : bool ref
 (** Should we use ASCII instead of Unicode for printing out types? *)
@@ -31,12 +26,6 @@ val verbosity : int ref
     - 2 errors and check
     - 3 errors, check, and warnings
     - 4 errors, check, warnings, and debug messages *)
-
-val pure_print : bool ref
-(** Should we use pure printing for computations? *)
-
-val explicit_subtyping : bool ref
-(** Should we use the new explicit subtyping effect system? *)
 
 val output_formatter : Format.formatter ref
 

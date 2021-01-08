@@ -14,6 +14,8 @@ effect RandomInt : int -> int
 
 effect RandomFloat: float -> float
 
+effect Write : (string*string) -> unit
+               
 (* Integers and Floats *)
 external ( = ) : 'a -> 'a -> bool = "="
 
@@ -99,6 +101,8 @@ external int_of_float : float -> int = "int_of_float"
 external ( ^ ) : string -> string -> string = "^"
 
 external string_length : string -> int = "string_length"
+
+external sub : string -> int -> int -> string = "sub"
 
 external string_of_float : float -> string  = "string_of_float"
 

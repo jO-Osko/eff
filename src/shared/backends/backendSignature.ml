@@ -7,10 +7,16 @@ module type T = sig
   val initial_state : state
 
   val process_computation :
-    state -> CoreSyntax.computation -> Types.target_dirty -> state
+    state ->
+    CoreSyntax.computation ->
+    CoreTypes.TyParam.t list * Type.ty ->
+    state
 
   val process_type_of :
-    state -> CoreSyntax.computation -> Types.target_dirty -> state
+    state ->
+    CoreSyntax.computation ->
+    CoreTypes.TyParam.t list * Type.ty ->
+    state
 
   val process_def_effect :
     state -> CoreTypes.Effect.t * (Type.ty * Type.ty) -> state

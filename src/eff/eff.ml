@@ -119,7 +119,6 @@ let toplevel execute_source state =
 (* Main program *)
 let main =
   (* Parse the arguments. *)
-  Printexc.record_backtrace true;
   Arg.parse options anonymous usage;
   (* Attemp to wrap yourself with a line-editing wrapper. *)
   (if !Config.interactive_shell then
