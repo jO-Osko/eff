@@ -341,10 +341,21 @@ and handle_computation state hnd comp =
           (hnd.term.Term.effect_clauses.fingerprint, f.term)
           state.specialized_functions
       with
-      | Some (f', Recursive) ->
-          Term.apply
-            ( Term.var f',
-              Term.tuple [ exp; Term.lambda hnd.term.Term.value_clause ] )
+      | Some (f', Recursive) -> (
+          match f'.ty with
+          | Type.Arrow (_, (tf'', _)) ->
+              let f_pat, v_f'' = Term.fresh_variable "f''" tf'' in
+              let abs =
+                Term.abstraction
+                  ( f_pat,
+                    Term.apply (v_f'', Term.lambda hnd.term.Term.value_clause)
+                  )
+              in
+              let bound =
+                bind_computation state (Term.apply (Term.var f', exp)) abs
+              in
+              bound
+          | _ -> assert false)
       | Some (f', NonRecursive) -> Term.apply (Term.var f', exp)
       | Some (f', TailRecursive) -> Term.apply (Term.var f', exp)
       | None -> assert false)
@@ -359,9 +370,22 @@ and handle_computation state hnd comp =
           in
           handle_computation state hnd' cmp)
   | _ -> (
-      match recast_computation hnd comp with
+      Print.debug "else";
+      let k = recast_computation hnd comp in
+      Print.debug "here";
+      let _ =
+        Option.map (fun k -> Print.debug "%t" (Term.print_computation k)) k
+      in
+      match k with
       | Some comp' -> bind_computation state comp' hnd.term.Term.value_clause
       | None -> Term.handle (Term.handler hnd, comp))
+
+and handle_specialized_abstraction state hnd pat k_pat cmp =
+  Term.abstraction
+    ( pat,
+      Term.value
+        (Term.lambda
+           (Term.abstraction (k_pat, handle_computation state hnd cmp))) )
 
 and handle_abstraction state hnd { term = p, c; _ } =
   Term.abstraction (p, handle_computation state hnd c)
@@ -437,7 +461,9 @@ and reduce_computation' state comp =
           match spec with
           | Recursive ->
               Type.Arrow
-                (Type.Tuple [ ty_arg; Type.Arrow (ty_in, drty_out) ], drty_out)
+                ( ty_arg,
+                  Type.pure_ty
+                    (Type.Arrow (Type.Arrow (ty_in, drty_out), drty_out)) )
           | NonRecursive -> Type.Arrow (ty_arg, drty_out)
           | TailRecursive -> Type.Arrow (ty_arg, drty_out)
         in
@@ -459,7 +485,8 @@ and reduce_computation' state comp =
             | Some (f', Recursive) -> (
                 match f'.ty with
                 | Type.Arrow
-                    (Type.Tuple [ _; (Type.Arrow (ty_in, _) as ty_cont) ], _) ->
+                    (_, (Type.Arrow ((Type.Arrow (ty_in, _) as ty_cont), _), _))
+                  ->
                     let x_pat, x_var = Term.fresh_variable "x" ty_in
                     and k_pat, k_var = Term.fresh_variable "k" ty_cont in
                     let hnd' =
@@ -473,10 +500,9 @@ and reduce_computation' state comp =
                           };
                       }
                     in
-                    let abs' =
-                      Term.abstraction (Term.pTuple [ pat; k_pat ], cmp)
-                    in
-                    (f', handle_abstraction state' hnd' abs')
+                    ( f',
+                      handle_specialized_abstraction state' hnd' pat k_pat cmp
+                    )
                 | _ -> assert false)
             | Some (f', NonRecursive) -> (f', handle_abstraction state' hnd abs)
             | Some (f', TailRecursive) -> (f', handle_abstraction state' hnd abs)

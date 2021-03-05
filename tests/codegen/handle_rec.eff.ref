@@ -6,15 +6,15 @@ let rec _f_45 _x_58 =
   | true -> Value 1
   | false -> Call (Eff, (), fun (_y_65 : unit) -> _f_45 (_x_58 - 1))
 in
-let rec _f_68 (_x_58, _k_70) =
+let rec _f_68 _x_58 (_k_71 : int -> int) =
   match _x_58 = 0 with
-  | true -> _k_70 1
-  | false -> _f_68 (_x_58 - 1, fun (_x_69 : int) -> _k_70 _x_69) * 2
+  | true -> _k_71 1
+  | false -> _f_68 (_x_58 - 1) (fun (_x_70 : int) -> _k_71 _x_70) * 2
 in
-_f_68 (5, fun (_id_54 : int) -> _id_54)
+_f_68 5 (fun (_id_54 : int) -> _id_54)
 
 ;;
-let rec _g_75 _x_86 =
-  match _x_86 = 0 with true -> 1 | false -> _g_75 (_x_86 - 1)
+let rec _g_77 _x_88 =
+  match _x_88 = 0 with true -> 1 | false -> _g_77 (_x_88 - 1)
 in
-_g_75 5
+_g_77 5

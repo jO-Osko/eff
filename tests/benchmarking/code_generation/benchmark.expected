@@ -1,27 +1,208 @@
-QUEENS ONE CPS BENCHMARK (8 queens):
-╭────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
-│name                    │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
-├────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
-│  Generated, optimized  │            10.8888 mjw/run│         12974.2756 mnw/run│          28521.8225 ns/run│              10.8888 p/run│
-│  Native                │             4.5597 mjw/run│          8373.1856 mnw/run│          18472.2357 ns/run│               4.5597 p/run│
-╰────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
+Ocaml Version: 4.11.0
+
+LOOP INCR BENCHMARK (100 loops):
+Native
+Generated, optimized Tuple
+Generated, optimized Tuple
+Generated, optimized Tuple
+Generated, optimized
+Generated, optimized
+Generated, optimized
+╭──────────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
+│name                          │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
+├──────────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│  Generated, optimized        │869 mjw/run | 112890596101%│  905.0025 mnw/run | 45239%│    846.7024 ns/run |  511%│.6869 p/run | 112890596101%│
+│  Generated, optimized        │869 mjw/run | 112890596101%│  905.0025 mnw/run | 45239%│    846.7024 ns/run |  511%│.6869 p/run | 112890596101%│
+│  Generated, optimized        │869 mjw/run | 112890596101%│  905.0025 mnw/run | 45239%│    846.7024 ns/run |  511%│.6869 p/run | 112890596101%│
+│  Generated, optimized Tuple  │923 mjw/run | 113772421495%│  905.0024 mnw/run | 45239%│    806.9034 ns/run |  487%│.6923 p/run | 113772421495%│
+│  Generated, optimized Tuple  │923 mjw/run | 113772421495%│  905.0024 mnw/run | 45239%│    806.9034 ns/run |  487%│.6923 p/run | 113772421495%│
+│  Generated, optimized Tuple  │923 mjw/run | 113772421495%│  905.0024 mnw/run | 45239%│    806.9034 ns/run |  487%│.6923 p/run | 113772421495%│
+│  Native                      │     0.0000 mjw/run |  100%│     2.0005 mnw/run |  100%│    165.6727 ns/run |  100%│       0.0000 p/run |  100%│
+╰──────────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
 
 
-QUEENS ONE OPTION BENCHMARK (8 queens):
-╭────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
-│name                    │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
-├────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
-│  Generated, optimized  │             9.2009 mjw/run│         11947.1968 mnw/run│          30429.3974 ns/run│               9.2009 p/run│
-│  Native                │             2.4619 mjw/run│          5141.6286 mnw/run│          19277.6187 ns/run│               2.4619 p/run│
-╰────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
+LOOP INCR' BENCHMARK (100 loops):
+Native
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized
+Generated, optimized
+Generated, optimized
+╭────────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
+│name                        │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
+├────────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│  Generated, optimized      │4821 mjw/run | 21746304650%│  505.0021 mnw/run | 25238%│    675.3804 ns/run |  214%│0.4821 p/run | 21746304650%│
+│  Generated, optimized      │4821 mjw/run | 21746304650%│  505.0021 mnw/run | 25238%│    675.3804 ns/run |  214%│0.4821 p/run | 21746304650%│
+│  Generated, optimized      │4821 mjw/run | 21746304650%│  505.0021 mnw/run | 25238%│    675.3804 ns/run |  214%│0.4821 p/run | 21746304650%│
+│  Generated, optimized Tup  │4802 mjw/run | 21660183396%│  505.0020 mnw/run | 25238%│    700.4892 ns/run |  222%│0.4802 p/run | 21660183396%│
+│  Generated, optimized Tup  │4802 mjw/run | 21660183396%│  505.0020 mnw/run | 25238%│    700.4892 ns/run |  222%│0.4802 p/run | 21660183396%│
+│  Generated, optimized Tup  │4802 mjw/run | 21660183396%│  505.0020 mnw/run | 25238%│    700.4892 ns/run |  222%│0.4802 p/run | 21660183396%│
+│  Native                    │     0.0000 mjw/run |  100%│     2.0009 mnw/run |  100%│    315.0864 ns/run |  100%│       0.0000 p/run |  100%│
+╰────────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
 
 
-QUEENS ALL BENCHMARK (8 queens):
-╭────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
-│name                    │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
-├────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
-│  Generated, optimized  │          2634.9371 mjw/run│        212943.9417 mnw/run│         938598.0650 ns/run│            2634.9371 p/run│
-│  Native                │           642.1970 mjw/run│         91739.4976 mnw/run│        1013215.4996 ns/run│             642.1970 p/run│
-╰────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
+LOOP INCR' BENCHMARK (200 loops):
+Native
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized
+Generated, optimized
+Generated, optimized
+╭────────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
+│name                        │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
+├────────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│  Generated, optimized      │8947 mjw/run | 22113124687%│ 1005.0051 mnw/run | 50204%│   1698.8579 ns/run |  273%│1.8947 p/run | 22113124687%│
+│  Generated, optimized      │8947 mjw/run | 22113124687%│ 1005.0051 mnw/run | 50204%│   1698.8579 ns/run |  273%│1.8947 p/run | 22113124687%│
+│  Generated, optimized      │8947 mjw/run | 22113124687%│ 1005.0051 mnw/run | 50204%│   1698.8579 ns/run |  273%│1.8947 p/run | 22113124687%│
+│  Generated, optimized Tup  │9194 mjw/run | 22401444680%│ 1005.0052 mnw/run | 50204%│   1754.0550 ns/run |  282%│1.9194 p/run | 22401444680%│
+│  Generated, optimized Tup  │9194 mjw/run | 22401444680%│ 1005.0052 mnw/run | 50204%│   1754.0550 ns/run |  282%│1.9194 p/run | 22401444680%│
+│  Generated, optimized Tup  │9194 mjw/run | 22401444680%│ 1005.0052 mnw/run | 50204%│   1754.0550 ns/run |  282%│1.9194 p/run | 22401444680%│
+│  Native                    │     0.0000 mjw/run |  100%│     2.0018 mnw/run |  100%│    621.1777 ns/run |  100%│       0.0000 p/run |  100%│
+╰────────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
+
+
+LOOP STATE BENCHMARK (100 loops):
+Native
+Generated, optimized Tuple
+Generated, optimized Tuple
+Generated, optimized Tuple
+Generated, optimized
+Generated, optimized
+Generated, optimized
+╭──────────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
+│name                          │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
+├──────────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│  Generated, optimized        │6901 mjw/run | 84153184730%│  905.0025 mnw/run | 45237%│    853.0324 ns/run |  428%│0.6901 p/run | 84153184730%│
+│  Generated, optimized        │6901 mjw/run | 84153184730%│  905.0025 mnw/run | 45237%│    853.0324 ns/run |  428%│0.6901 p/run | 84153184730%│
+│  Generated, optimized        │6901 mjw/run | 84153184730%│  905.0025 mnw/run | 45237%│    853.0324 ns/run |  428%│0.6901 p/run | 84153184730%│
+│  Generated, optimized Tuple  │6874 mjw/run | 83825185346%│  905.0025 mnw/run | 45237%│    845.8383 ns/run |  424%│0.6874 p/run | 83825185346%│
+│  Generated, optimized Tuple  │6874 mjw/run | 83825185346%│  905.0025 mnw/run | 45237%│    845.8383 ns/run |  424%│0.6874 p/run | 83825185346%│
+│  Generated, optimized Tuple  │6874 mjw/run | 83825185346%│  905.0025 mnw/run | 45237%│    845.8383 ns/run |  424%│0.6874 p/run | 83825185346%│
+│  Native                      │     0.0000 mjw/run |  100%│     2.0006 mnw/run |  100%│    199.2628 ns/run |  100%│       0.0000 p/run |  100%│
+╰──────────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
+
+
+INTERPRETER BENCHMARK (size: 200):
+Native
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized
+Generated, optimized
+Generated, optimized
+╭────────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
+│name                        │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
+├────────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│  Generated, optimized      │    71.2149 mjw/run | 9925%│ 18235.0448 mnw/run | 2936%│  13991.0187 ns/run |  140%│      71.2149 p/run | 9925%│
+│  Generated, optimized      │    71.2149 mjw/run | 9925%│ 18235.0448 mnw/run | 2936%│  13991.0187 ns/run |  140%│      71.2149 p/run | 9925%│
+│  Generated, optimized      │    71.2149 mjw/run | 9925%│ 18235.0448 mnw/run | 2936%│  13991.0187 ns/run |  140%│      71.2149 p/run | 9925%│
+│  Generated, optimized Tup  │    71.0810 mjw/run | 9906%│ 18235.0426 mnw/run | 2936%│  13483.6423 ns/run |  135%│      71.0810 p/run | 9906%│
+│  Generated, optimized Tup  │    71.0810 mjw/run | 9906%│ 18235.0426 mnw/run | 2936%│  13483.6423 ns/run |  135%│      71.0810 p/run | 9906%│
+│  Generated, optimized Tup  │    71.0810 mjw/run | 9906%│ 18235.0426 mnw/run | 2936%│  13483.6423 ns/run |  135%│      71.0810 p/run | 9906%│
+│  Native                    │     0.7176 mjw/run |  100%│   621.0308 mnw/run |  100%│  10006.3948 ns/run |  100%│       0.7175 p/run |  100%│
+╰────────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
+
+
+INTERPRETER BENCHMARK (size: 400):
+Native
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized
+Generated, optimized
+Generated, optimized
+╭────────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
+│name                        │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
+├────────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│  Generated, optimized      │   272.6519 mjw/run | 9640%│ 35235.0948 mnw/run | 2886%│  28866.6577 ns/run |  153%│     272.6519 p/run | 9640%│
+│  Generated, optimized      │   272.6519 mjw/run | 9640%│ 35235.0948 mnw/run | 2886%│  28866.6577 ns/run |  153%│     272.6519 p/run | 9640%│
+│  Generated, optimized      │   272.6519 mjw/run | 9640%│ 35235.0948 mnw/run | 2886%│  28866.6577 ns/run |  153%│     272.6519 p/run | 9640%│
+│  Generated, optimized Tup  │   271.4625 mjw/run | 9598%│ 35235.0913 mnw/run | 2886%│  28970.4454 ns/run |  153%│     271.4625 p/run | 9598%│
+│  Generated, optimized Tup  │   271.4625 mjw/run | 9598%│ 35235.0913 mnw/run | 2886%│  28970.4454 ns/run |  153%│     271.4625 p/run | 9598%│
+│  Generated, optimized Tup  │   271.4625 mjw/run | 9598%│ 35235.0913 mnw/run | 2886%│  28970.4454 ns/run |  153%│     271.4625 p/run | 9598%│
+│  Native                    │     2.8283 mjw/run |  100%│  1221.0600 mnw/run |  100%│  18892.0714 ns/run |  100%│       2.8283 p/run |  100%│
+╰────────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
+
+
+INTERPRETER BENCHMARK (size: 800):
+Native
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized
+Generated, optimized
+Generated, optimized
+╭────────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
+│name                        │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
+├────────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│  Generated, optimized      │  1073.6220 mjw/run | 9458%│ 69235.1927 mnw/run | 2860%│  60912.1750 ns/run |  164%│    1073.6220 p/run | 9458%│
+│  Generated, optimized      │  1073.6220 mjw/run | 9458%│ 69235.1927 mnw/run | 2860%│  60912.1750 ns/run |  164%│    1073.6220 p/run | 9458%│
+│  Generated, optimized      │  1073.6220 mjw/run | 9458%│ 69235.1927 mnw/run | 2860%│  60912.1750 ns/run |  164%│    1073.6220 p/run | 9458%│
+│  Generated, optimized Tup  │  1068.1982 mjw/run | 9410%│ 69235.2027 mnw/run | 2860%│  65290.3121 ns/run |  175%│    1068.1982 p/run | 9410%│
+│  Generated, optimized Tup  │  1068.1982 mjw/run | 9410%│ 69235.2027 mnw/run | 2860%│  65290.3121 ns/run |  175%│    1068.1982 p/run | 9410%│
+│  Generated, optimized Tup  │  1068.1982 mjw/run | 9410%│ 69235.2027 mnw/run | 2860%│  65290.3121 ns/run |  175%│    1068.1982 p/run | 9410%│
+│  Native                    │    11.3515 mjw/run |  100%│  2421.1207 mnw/run |  100%│  37242.9294 ns/run |  100%│      11.3515 p/run |  100%│
+╰────────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
+
+
+INTERPRETER BENCHMARK (size: 1600):
+Native
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized
+Generated, optimized
+Generated, optimized
+╭────────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
+│name                        │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
+├────────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│  Generated, optimized      │  4305.2324 mjw/run | 9670%│137235.4402 mnw/run | 2846%│ 183938.4167 ns/run |  251%│    4305.2324 p/run | 9670%│
+│  Generated, optimized      │  4305.2324 mjw/run | 9670%│137235.4402 mnw/run | 2846%│ 183938.4167 ns/run |  251%│    4305.2324 p/run | 9670%│
+│  Generated, optimized      │  4305.2324 mjw/run | 9670%│137235.4402 mnw/run | 2846%│ 183938.4167 ns/run |  251%│    4305.2324 p/run | 9670%│
+│  Generated, optimized Tup  │  4286.5044 mjw/run | 9628%│137235.4429 mnw/run | 2846%│ 163654.5096 ns/run |  223%│    4286.5044 p/run | 9628%│
+│  Generated, optimized Tup  │  4286.5044 mjw/run | 9628%│137235.4429 mnw/run | 2846%│ 163654.5096 ns/run |  223%│    4286.5044 p/run | 9628%│
+│  Generated, optimized Tup  │  4286.5044 mjw/run | 9628%│137235.4429 mnw/run | 2846%│ 163654.5096 ns/run |  223%│    4286.5044 p/run | 9628%│
+│  Native                    │    44.5214 mjw/run |  100%│  4821.2256 mnw/run |  100%│  73334.8246 ns/run |  100%│      44.5214 p/run |  100%│
+╰────────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
+
+
+RANGE BENCHMARK :
+Native
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized Tup
+Generated, optimized
+Generated, optimized
+Generated, optimized
+╭────────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
+│name                        │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
+├────────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│  Generated, optimized      │     1.1664 mjw/run |  686%│   900.0022 mnw/run |  300%│    753.3353 ns/run |  175%│       1.1664 p/run |  686%│
+│  Generated, optimized      │     1.1664 mjw/run |  686%│   900.0022 mnw/run |  300%│    753.3353 ns/run |  175%│       1.1664 p/run |  686%│
+│  Generated, optimized      │     1.1664 mjw/run |  686%│   900.0022 mnw/run |  300%│    753.3353 ns/run |  175%│       1.1664 p/run |  686%│
+│  Generated, optimized Tup  │     1.1664 mjw/run |  686%│   900.0022 mnw/run |  300%│    740.2253 ns/run |  172%│       1.1664 p/run |  686%│
+│  Generated, optimized Tup  │     1.1664 mjw/run |  686%│   900.0022 mnw/run |  300%│    740.2253 ns/run |  172%│       1.1664 p/run |  686%│
+│  Generated, optimized Tup  │     1.1664 mjw/run |  686%│   900.0022 mnw/run |  300%│    740.2253 ns/run |  172%│       1.1664 p/run |  686%│
+│  Native                    │     0.1701 mjw/run |  100%│   300.0012 mnw/run |  100%│    431.4457 ns/run |  100%│       0.1701 p/run |  100%│
+╰────────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
+
+
+TREE BENCHMARK :
+Native
+Generated, optimized2
+Generated, optimized Tup
+Generated, optimized Tup2
+Generated, optimized
+╭─────────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────┬───────────────────────────╮
+│name                         │  major-allocated          │  minor-allocated          │  monotonic-clock          │  promoted                 │
+├─────────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│  Generated, optimized       │     1.1966 mjw/run |  923%│  1159.0065 mnw/run |  431%│   2017.5161 ns/run |  151%│       1.1966 p/run |  923%│
+│  Generated, optimized Tup   │     1.1968 mjw/run |  923%│  1159.0060 mnw/run |  431%│   1989.9561 ns/run |  149%│       1.1968 p/run |  923%│
+│  Generated, optimized Tup2  │     1.1948 mjw/run |  922%│  1159.0059 mnw/run |  431%│   1899.8716 ns/run |  142%│       1.1948 p/run |  922%│
+│  Generated, optimized2      │     1.1957 mjw/run |  922%│  1159.0061 mnw/run |  431%│   1986.0097 ns/run |  149%│       1.1957 p/run |  922%│
+│  Native                     │     0.1297 mjw/run |  100%│   269.0040 mnw/run |  100%│   1336.2557 ns/run |  100%│       0.1297 p/run |  100%│
+╰─────────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────┴───────────────────────────╯
 
 

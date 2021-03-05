@@ -40,80 +40,80 @@ let rec _loop_incr_84 _x_92 =
 let loop_incr = _loop_incr_84
 
 let _test_incr_101 (_n_102 : int) =
-  (let rec _loop_incr_117 (_x_92, _k_119) =
+  (let rec _loop_incr_117 _x_92 (_k_120 : unit -> int -> int) =
      match _x_92 = 0 with
-     | true -> _k_119 ()
+     | true -> _k_120 ()
      | false ->
-         fun (_x_122 : int) ->
-           _loop_incr_117
-             (_x_92 - 1, fun (_x_118 : unit) -> _k_119 _x_118)
-             (_x_122 + 1)
+         fun (_x_124 : int) ->
+           _loop_incr_117 (_x_92 - 1)
+             (fun (_x_119 : unit) -> _k_120 _x_119)
+             (_x_124 + 1)
    in
-   _loop_incr_117 (_n_102, fun (_x_109 : unit) (_x_111 : int) -> _x_111))
+   _loop_incr_117 _n_102 (fun (_x_109 : unit) (_x_111 : int) -> _x_111))
     0
 
 let test_incr = _test_incr_101
 
-let rec _loop_incr'_126 _x_134 =
-  match _x_134 = 0 with
+let rec _loop_incr'_128 _x_136 =
+  match _x_136 = 0 with
   | true -> Value ()
   | false ->
-      _loop_incr'_126 (_x_134 - 1) >> fun _ ->
-      Call (Incr, (), fun (_y_142 : unit) -> Value _y_142)
+      _loop_incr'_128 (_x_136 - 1) >> fun _ ->
+      Call (Incr, (), fun (_y_144 : unit) -> Value _y_144)
 
-let loop_incr' = _loop_incr'_126
+let loop_incr' = _loop_incr'_128
 
-let _test_incr'_143 (_n_144 : int) =
-  (let rec _loop_incr'_159 (_x_134, _k_162) =
-     match _x_134 = 0 with
-     | true -> _k_162 ()
+let _test_incr'_145 (_n_146 : int) =
+  (let rec _loop_incr'_161 _x_136 (_k_165 : unit -> int -> int) =
+     match _x_136 = 0 with
+     | true -> _k_165 ()
      | false ->
-         _loop_incr'_159
-           (_x_134 - 1, fun (_ : unit) (_x_166 : int) -> _k_162 () (_x_166 + 1))
-   and _loop_incr_160 (_x_92, _k_172) =
+         _loop_incr'_161 (_x_136 - 1) (fun (_ : unit) (_x_169 : int) ->
+             _k_165 () (_x_169 + 1))
+   and _loop_incr_162 _x_92 (_k_176 : unit -> int -> int) =
      match _x_92 = 0 with
-     | true -> _k_172 ()
+     | true -> _k_176 ()
      | false ->
-         fun (_x_175 : int) ->
-           _loop_incr_160
-             (_x_92 - 1, fun (_x_171 : unit) -> _k_172 _x_171)
-             (_x_175 + 1)
+         fun (_x_180 : int) ->
+           _loop_incr_162 (_x_92 - 1)
+             (fun (_x_175 : unit) -> _k_176 _x_175)
+             (_x_180 + 1)
    in
-   _loop_incr'_159 (_n_144, fun (_x_151 : unit) (_x_153 : int) -> _x_153))
+   _loop_incr'_161 _n_146 (fun (_x_153 : unit) (_x_155 : int) -> _x_155))
     0
 
-let test_incr' = _test_incr'_143
+let test_incr' = _test_incr'_145
 
 type (_, _) eff_internal_effect += Get : (unit, int) eff_internal_effect
 
 type (_, _) eff_internal_effect += Put : (int, unit) eff_internal_effect
 
-let rec _loop_state_179 _x_192 =
-  match _x_192 = 0 with
+let rec _loop_state_184 _x_197 =
+  match _x_197 = 0 with
   | true -> Value ()
   | false ->
       Call
         ( Get,
           (),
-          fun (_y_201 : int) ->
+          fun (_y_206 : int) ->
             Call
               ( Put,
-                _y_201 + 1,
-                fun (_y_204 : unit) -> _loop_state_179 (_x_192 - 1) ) )
+                _y_206 + 1,
+                fun (_y_209 : unit) -> _loop_state_184 (_x_197 - 1) ) )
 
-let loop_state = _loop_state_179
+let loop_state = _loop_state_184
 
-let _test_state_207 (_n_208 : int) =
-  (let rec _loop_state_225 (_x_192, _k_227) =
-     match _x_192 = 0 with
-     | true -> _k_227 ()
+let _test_state_212 (_n_213 : int) =
+  (let rec _loop_state_230 _x_197 (_k_233 : unit -> int -> int) =
+     match _x_197 = 0 with
+     | true -> _k_233 ()
      | false ->
-         fun (_s_237 : int) ->
-           _loop_state_225
-             (_x_192 - 1, fun (_x_245 : unit) -> _k_227 _x_245)
-             (_s_237 + 1)
+         fun (_s_245 : int) ->
+           _loop_state_230 (_x_197 - 1)
+             (fun (_x_254 : unit) -> _k_233 _x_254)
+             (_s_245 + 1)
    in
-   _loop_state_225 (_n_208, fun (_x_216 : unit) (_x_218 : int) -> _x_218))
+   _loop_state_230 _n_213 (fun (_x_221 : unit) (_x_223 : int) -> _x_223))
     0
 
-let test_state = _test_state_207
+let test_state = _test_state_212
